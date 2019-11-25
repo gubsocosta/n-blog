@@ -8,7 +8,7 @@ const PORT = 3000;
 app.set('view engine', 'ejs');
 
 // Config static files path
-app.use(expres.static('public'));
+app.use(express.static('public'));
 
 // Config receiving form contents
 app.use(bodyParser.urlencoded({ extended: false }));
