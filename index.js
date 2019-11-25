@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./database/database')
+const CategoriaController = require('./categories/CategoryController');
+const ArticleController = require('./articles/ArticleController');
 const PORT = 3000;
 
 // Config view engine
@@ -14,14 +16,14 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Confgi databse connection
+// Config databse connection
 connection.authenticate()
     .then(() => console.log('Connection has been established successfully.'))
     .catch((error) => console.log('Unable to connect to the database', error));
 
-app.get('/', (req, res) => {
-    res.render('index');
-});
+// Routes
+app.use('/', CategoriaController);
+app.use('/', ArticleController);
 
 app.listen(PORT, () => {
     console.log('Server is live');
