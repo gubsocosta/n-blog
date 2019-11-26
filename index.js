@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const connection = require('./database/database')
 const CategoriaController = require('./categories/CategoryController');
 const ArticleController = require('./articles/ArticleController');
+const Article = require('./articles/Article');
+const Category = require('./categories/Category');
 const PORT = 3000;
 
 // Config view engine
