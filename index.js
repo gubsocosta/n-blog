@@ -26,6 +26,9 @@ connection.authenticate()
 // Routes
 app.use('/', CategoriaController);
 app.use('/', ArticleController);
+app.get('/', (req, res) => {
+    res.render('index');
+});
 
 app.listen(PORT, () => {
     console.log('Server is live');
