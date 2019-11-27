@@ -2,12 +2,20 @@ const express = require('express');
 const slugify = require('slugify');
 const router = express();
 const Category = require('./Category');
+const pathname =  '/admin/categories';
 
-router.get('/admin/categories/create', (req, res) => {
+// index
+router.get(pathname, (req, res) => {
+    res.render('admin/categories/index');
+});
+
+// create
+router.get(pathname + '/create', (req, res) => {
     res.render('admin/categories/create');
 });
 
-router.post('/admin/categories', (req, res) => {
+// store
+router.post(pathname, (req, res) => {
     const title = req.body.title;
 
     if(title != undefined) {
