@@ -6,7 +6,10 @@ const pathname =  '/admin/categories';
 
 // index
 router.get(pathname, (req, res) => {
-    res.render('admin/categories/index');
+    Category.findAll()
+        .then((categories) => {
+            res.render('admin/categories/index', { categories });
+        });
 });
 
 // create
