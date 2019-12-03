@@ -27,10 +27,31 @@ router.post(pathname, (req, res) => {
             slug: slugify(title).toLowerCase(),
         })
             .then(() => {
-                res.redirect('/');
+                res.redirect(pathname);
             });
     } else {
         res.redirect('/admin/categories/create');
+    }
+});
+
+// destroy
+router.delete(pathname + '/:id', (req, res) => {
+    const id = req.params.id;
+
+    if(id != undefined) {
+        if(!isNaN(id)) {
+            Category.destroy({
+                where: { id },
+            })
+                .then(() => {
+                    res.redirect(pathname);
+                });
+        } else {
+            res.redirect(pathname);
+        }
+
+    } else {
+        res.redirect(pathname);
     }
 });
 

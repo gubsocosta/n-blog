@@ -3,7 +3,7 @@
     <!-- breadcrumb start -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Categorias</li>
             </ol>
         </nav>
@@ -12,6 +12,10 @@
     <!-- content start -->
         <div class="container">
             <h2>Categorias</h2>
+
+            <div class="mb-3">
+                <a href="/admin/categories/create" class="btn btn-sm btn-success">Nova Categoria</a>
+            </div>
             <table class="table">
                 <thead class="thead-light">
                     <tr>
@@ -26,10 +30,8 @@
                             <td><%= category.id %></td>
                             <td><%= category.title %></td>
                             <td>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="">
-                                    <button type="button" class="btn btn-warning">Editar</button>
-                                    <button type="button" class="btn btn-danger">Excluir</button>
-                                </div>
+                                <button type="button" class="btn btn-sm btn-warning">Editar</button>
+                                <button type="button" class="btn btn-sm btn-danger btn-destroy" data-category-id="<%= category.id%>">Excluir</button>
                             </td>
                         </tr>
                     <% }) %>
@@ -37,4 +39,26 @@
             </table>
         </div>
     <!-- content end -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const btnsDestroy = document.querySelectorAll('.btn-destroy');
+
+            btnsDestroy.forEach((btn) => {
+                btn.addEventListener('click', (event) => {
+                    destroyCategory(btn);
+                });
+            });
+
+            function destroyCategory(elm) {
+                const categoryId = elm.dataset.categoryId;
+
+                axios.delete(`/admin/categories/${categoryId}`)
+                    .then((response) => {
+                        
+                    })
+                    .catch((error) => console.warn(error));
+            }
+        });
+    </script>
 <%- include('../../layouts/footer.ejs') %>
