@@ -37,21 +37,30 @@ router.post(pathname, (req, res) => {
 // destroy
 router.delete(pathname + '/:id', (req, res) => {
     const id = req.params.id;
-
-    if(id != undefined) {
-        if(!isNaN(id)) {
-            Category.destroy({
-                where: { id },
-            })
-                .then(() => {
-                    res.redirect(pathname);
-                });
-        } else {
-            res.redirect(pathname);
+    let codeStatus = 500;
+       
+    try {
+        if(id === undefined) {
+            codeStatus = 404;
+            throw new Error('O "id" informado não é numérico.');
         }
 
-    } else {
-        res.redirect(pathname);
+        Category.destroy({
+            where: { id },
+        })
+            .then(() => {
+                codeStatus = 200;
+                res.status(codeStatus).json({
+                    status: 'success',
+                    message: 'A categoria foi excluida com sucesso.',
+                });
+            });
+        
+    } catch (error) {
+        res.status(codeStatus).json({
+            status: 'error',
+            message: error.message,
+        });
     }
 });
 
