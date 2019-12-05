@@ -30,8 +30,8 @@
                             <td><%= category.id %></td>
                             <td><%= category.title %></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-warning">Editar</button>
-                                <button type="button" class="btn btn-sm btn-danger btn-destroy" data-category-id="<%= category.id%>">Excluir</button>
+                                <a href="/admin/categories/<%= category.id %>/edit" class="btn btn-sm btn-warning">Editar</a>
+                                <button type="button" class="btn btn-sm btn-danger btn-destroy" data-category-id="<%= category.id %>">Excluir</button>
                             </td>
                         </tr>
                     <% }) %>

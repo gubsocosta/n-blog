@@ -13,7 +13,7 @@ router.get(pathname, (req, res) => {
 });
 
 // create
-router.get(pathname + '/create', (req, res) => {
+router.get(`${pathname}/create`, (req, res) => {
     res.render('admin/categories/create');
 });
 
@@ -34,8 +34,33 @@ router.post(pathname, (req, res) => {
     }
 });
 
+// edit
+router.get(`${pathname}/:id/edit`,(req, res) => {
+    const id = req.params.id;
+
+    try {
+        if(isNaN(id)) {
+            throw new Error('O "id" informado não é numérico.');
+        }
+        Category.findByPk(id)
+            .then((category) => {
+                if(category != undefined) {
+                    res.render('admin/categories/edit', { category });
+                } else {
+                    throw new Error('A categoria não foi encontrada');
+                }
+            })
+            .catch((error) => {
+                throw new Error('Ocorreu um erro interno');
+            });
+    } catch (error) {
+        console.log(error.message);
+        res.redirect(pathname);
+    }
+});
+
 // destroy
-router.delete(pathname + '/:id', (req, res) => {
+router.delete(`${pathname}/:id`, (req, res) => {
     const id = req.params.id;
     let codeStatus = 500;
        
