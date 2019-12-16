@@ -59,6 +59,35 @@ router.get(`${pathname}/:id/edit`,(req, res) => {
     }
 });
 
+// update
+router.post(`${pathname}/:id`, (req, res) => {
+    const id = req.params.id;
+    const title = req.body.title;
+
+    try {
+        if(isNaN(id)) {
+            throw new Error('O "id" informado não é numerico.');
+        }
+
+        if((title === '') || (title === undefined) || (title === null)) {
+            throw new Error('O titulo nao foi definido.')
+        }
+
+        Category.update({
+            title,
+            slug: slugify(title).toLowerCase(),
+        }, {
+            where: { id }
+        })
+            .catch((error) => {
+                throw new Error(error)
+            });
+    } catch (error) {
+        console.log(error.message);
+    }
+    res.redirect(pathname);
+});
+
 // destroy
 router.delete(`${pathname}/:id`, (req, res) => {
     const id = req.params.id;

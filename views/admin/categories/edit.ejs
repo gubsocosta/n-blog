@@ -13,7 +13,8 @@
     <!-- content start -->
         <div class="container">
             <h2>Alterar Categoria</h2>
-            <form action="/admin/categories/<%= category.id %>" method="PUT" class="form form-horizontal">
+            <form action="/admin/categories/<%= category.id %>" method="POST" class="form form-horizontal">
+                <input type="hidden" name="_method" value="put" />
                 <div class="form-group">
                     <label for="title">Título</label>
                     <input type="text" name="title" class="form-control form-control-sm" value="<%= category.title %>" required autofocus>
