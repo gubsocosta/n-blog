@@ -1,0 +1,45 @@
+<%- include('../../layouts/header.ejs') %>
+<%- include('../../layouts/navbar.ejs') %>
+    <!-- breadcrumb start -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+                <li class="breadcrumb-item"><a href="/admin/articles">Artigos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Novo Artigo</li>
+            </ol>
+        </nav>
+    <!-- breadcrumb end -->
+
+    <!-- content start -->
+        <div class="container">
+            <h2>Novo Artigo</h2>
+            <form action="/admin/articles" method="POST" class="form form-horizontal">
+                <div class="form-group">
+                    <label for="title">Título</label>
+                    <input type="text" name="title" class="form-control form-control-sm" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="title">Conteúdo</label>
+                    <textarea name="content" id="content" rows="5" class="form-control form-control-sm" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary">Criar Artigo</button>
+            </form>
+        </div>
+    <!-- content end -->
+<%- include('../../layouts/scripts.ejs') %>
+    <!-- TinyMCE-->
+    <script src="/plugins/tinymce/tinymce.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            tinymce.init({
+                language: 'pt_BR',
+                selector: '#content',
+                plugins: [
+                    'advlist autolink link image list print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons'
+                ],
+            });
+        });
+    </script>
+
+<%- include('../../layouts/footer.ejs') %>

@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express();
+const pathname = '/admin/articles'
 
-router.get('/articles', (req, res) => {
-    res.send('Artigos');
+// create
+router.get(pathname + '/create', (req, res) => {
+    res.render('admin/articles/create');
 });
 
 module.exports = router;
