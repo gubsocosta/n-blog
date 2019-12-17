@@ -59,7 +59,7 @@
             function destroyArticle(elm) {
                 const articleId = elm.dataset.articleId;
 
-                axios.delete(`/admin/categories/${categoryId}`)
+                axios.delete(`/admin/articles/${articleId}`)
                     .then((response) => {
                         const parent = elm.parentNode;
                         const grandpa = parent.parentNode;

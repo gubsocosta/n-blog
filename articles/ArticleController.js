@@ -40,4 +40,34 @@ router.post(pathname, (req, res) => {
         });
 });
 
+// destroy
+router.delete(`${pathname}/:id`, (req, res) => {
+    const id = req.params.id;
+    let codeStatus = 500;
+       
+    try {
+        if(id === undefined) {
+            codeStatus = 404;
+            throw new Error('O "id" informado não é numérico.');
+        }
+
+        Article.destroy({
+            where: { id },
+        })
+            .then(() => {
+                codeStatus = 200;
+                res.status(codeStatus).json({
+                    status: 'success',
+                    message: 'O artigo foi excluído com sucesso.',
+                });
+            });
+        
+    } catch (error) {
+        res.status(codeStatus).json({
+            status: 'error',
+            message: error.message,
+        });
+    }
+});
+
 module.exports = router;
