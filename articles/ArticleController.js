@@ -7,7 +7,12 @@ const pathname = '/admin/articles';
 
 // index
 router.get(pathname, (req, res) => {
-    res.send('Index - Categoria');
+    Article.findAll({
+        include: [{ model: Category }]
+    })
+        .then((articles) => {
+            res.render('admin/articles/index', { articles });
+        });
 });
 
 // create
@@ -31,7 +36,7 @@ router.post(pathname, (req, res) => {
         categoryId,
     })
         .then(() => {
-            res.redirect('admin/articles');
+            res.redirect(pathname);
         });
 });
 

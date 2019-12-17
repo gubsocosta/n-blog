@@ -1,0 +1,77 @@
+<%- include('../../layouts/header.ejs') %>
+<%- include('../../layouts/navbar.ejs') %>
+    <!-- breadcrumb start -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Artigos</li>
+            </ol>
+        </nav>
+    <!-- breadcrumb end -->
+
+    <!-- content start -->
+        <div class="container">
+            <h2>Artigos</h2>
+
+            <div class="mb-3">
+                <a href="/admin/articles/create" class="btn btn-sm btn-success">Novo Artigo</a>
+            </div>
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% articles.forEach((article) => { %>
+                        <tr>
+                            <td><%= article.id %></td>
+                            <td><%= article.title %></td>
+                            <td><%= article.category.title %></td>
+                            <td>
+                                <a href="/admin/articles/<%= article.id %>/edit" class="btn btn-sm btn-warning">Editar</a>
+                                <button type="button" class="btn btn-sm btn-danger btn-destroy" data-article-id="<%= article.id %>">Excluir</button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <!-- content end -->
+
+<%- include('../../layouts/scripts.ejs') %>
+    <!-- custom scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const btnsDestroy = document.querySelectorAll('.btn-destroy');
+
+            btnsDestroy.forEach((btn) => {
+                btn.addEventListener('click', (event) => {
+                    if(confirm('Deseja realmente excluir esse artigo?')) {
+                        destroyArticle(btn);
+                    }
+                });
+            });
+
+            function destroyArticle(elm) {
+                const articleId = elm.dataset.articleId;
+
+                axios.delete(`/admin/categories/${categoryId}`)
+                    .then((response) => {
+                        const parent = elm.parentNode;
+                        const grandpa = parent.parentNode;
+                        
+                        grandpa.parentNode.removeChild(grandpa);
+                        alert(response.data.message);
+                    })
+                    .catch((error) => {
+                        console.warn(error)
+                        alert('Oops! Ocorreu um erro ao tentar excluir o artigo.')
+                    });
+            }
+        });
+    </script>
+<%- include('../../layouts/footer.ejs') %>
