@@ -2,10 +2,10 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./database/database')
-const CategoriaController = require('./categories/CategoryController');
-const ArticleController = require('./articles/ArticleController');
 const Article = require('./articles/Article');
 const Category = require('./categories/Category');
+const ArticleController = require('./articles/ArticleController');
+const CategoriaController = require('./categories/CategoryController');
 const PORT = 3000;
 
 // Config view engine
@@ -27,7 +27,10 @@ connection.authenticate()
 app.use('/', CategoriaController);
 app.use('/', ArticleController);
 app.get('/', (req, res) => {
-    res.render('index');
+    Article.findAll()
+        .then((articles) => {
+            res.render('index', { articles });
+        })
 });
 
 app.listen(PORT, () => {
