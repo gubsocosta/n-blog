@@ -12,11 +12,15 @@
             <li class="nav-item">
                 <a class="nav-link" id="home" href="/">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" id="articles" href="/articles">Artigos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="categories" href="/categories">Categorias</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categorias
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <% categories.forEach((category) => { %>
+                        <a class="dropdown-item" href="/categories/<%= category.slug %>"><%= category.title %></a>
+                    <% }) %>
+                </div>
             </li>
         </ul>
     </div>

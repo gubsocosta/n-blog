@@ -1,0 +1,14 @@
+<div class="row">
+    <% articles.forEach((article) => { %>
+        <div class="col-lg-4 col-sm-6 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><%= article.title %></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Criado em <%= article.createdAt.toLocaleDateString() %></h6>
+                    <!--p class="card-text text-justify">Com suporte a texto embaixo, que funciona como uma introdução a um conteúdo adicional.</p-->
+                    <a href="/articles/<%= article.slug %>">Leia mais</a>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+</div>

@@ -4,14 +4,14 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Artigo</li>
+                <li class="breadcrumb-item active" aria-current="page">Categoria</li>
             </ol>
         </nav>
     <!-- breadcrumb end -->
     <!-- content start -->
         <div class="container">
-            <h2><%= article.title %></h2>
-            <%- article.body %>
+            <h2><%= category.title %></h2>
+            <%- include('../../layouts/site/list-articles.ejs') %>
         </div>
     <!-- content end -->
 <%- include('../../layouts/scripts.ejs') %>
