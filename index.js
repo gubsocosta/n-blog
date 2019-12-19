@@ -27,10 +27,32 @@ connection.authenticate()
 app.use('/', CategoriaController);
 app.use('/', ArticleController);
 app.get('/', (req, res) => {
-    Article.findAll()
+    Article.findAll({
+        order: [
+            ['id', 'DESC'],
+        ],
+    })
         .then((articles) => {
-            res.render('index', { articles });
+            res.render('site/index', { articles });
         })
+});
+app.get('/articles/:slug', (req, res) => {
+    const { slug } = req.params;
+
+    Article.findOne({
+        where: { slug },
+    })
+        .then((article) => {
+            if(article != undefined) {
+                res.render('site/articles/show', { article });
+            } else {
+                res.redirect('/');
+            }
+        })
+        .catch((error) => {
+            console.warn(error);
+            res.redirect('/');
+        });
 });
 
 app.listen(PORT, () => {
