@@ -54,20 +54,20 @@ router.get(`${pathname}/:id/edit`,(req, res) => {
                 throw new Error('Ocorreu um erro interno');
             });
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
         res.redirect(pathname);
     }
 });
 
 // update
 router.post(`${pathname}/:id`, (req, res) => {
-    const id = req.params.id;
-    const title = req.body.title;
-
+    const { id } = req.params;
+    
     try {
         if(isNaN(id)) {
             throw new Error('O "id" informado não é numerico.');
         }
+        const { title } = req.body;
 
         if((title === '') || (title === undefined) || (title === null)) {
             throw new Error('O titulo nao foi definido.')
@@ -83,7 +83,7 @@ router.post(`${pathname}/:id`, (req, res) => {
                 throw new Error(error)
             });
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
     res.redirect(pathname);
 });
@@ -113,7 +113,7 @@ router.delete(`${pathname}/:id`, (req, res) => {
     } catch (error) {
         res.status(codeStatus).json({
             status: 'error',
-            message: error.message,
+            message: error,
         });
     }
 });

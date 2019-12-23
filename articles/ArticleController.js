@@ -25,9 +25,7 @@ router.get(pathname + '/create', (req, res) => {
 
 // store
 router.post(pathname, (req, res) => {
-    const title = req.body.title;
-    const body = req.body.body;
-    const categoryId = req.body.categoryId;
+    const { title, body, categoryId } = req.body;
 
     Article.create({
         title,
@@ -38,6 +36,71 @@ router.post(pathname, (req, res) => {
         .then(() => {
             res.redirect(pathname);
         });
+});
+
+// edit
+router.get(pathname + '/:id/edit', (req, res) => {
+    const { id } = req.params;
+
+    try {
+        if(isNaN(id)) {
+            throw new Error('O "id" informado não é numérico.');
+        }
+        Article.findByPk(id)
+            .then((article) => {
+                if(article !=  undefined) {
+                    Category.findAll()
+                        .then((categories) => {
+                            res.render('admin/articles/edit', { article, categories });
+                        });
+                } else {
+                    throw new Error('O artigo não foi encontrado.');
+                }
+            })
+            .catch((error) => {
+                throw new Error('Oops... ocorreu um erro interno.')
+            })
+    } catch (error) {
+        console.log(error);
+        res.redirect(pathname);
+    }
+});
+
+// update
+router.post(pathname + '/:id', (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        if(isNaN(id)) {
+            throw new Error('O "id" informado não é numérico.');
+        }
+
+        const { title, categoryId, body } = req.body;
+        
+        if((title === '') || (title === undefined) || (title === null)) {
+            throw new Error('O titulo nao foi definido.')
+        }
+
+        if((categoryId === '') || (categoryId === undefined) || (categoryId === null)) {
+            throw new Error('Nenhuma categoria foi selecionada.')
+        }
+
+        Article.update(
+            {
+                title,
+                categoryId,
+                body,
+                slug: slugify(title).toLowerCase(),
+            },
+            { where: { id }}
+        )
+            .catch((error) => {
+                throw new Error(error)
+            });
+    } catch (error) {
+        console.log(error);
+    }
+    res.redirect(pathname);
 });
 
 // destroy
@@ -65,7 +128,7 @@ router.delete(`${pathname}/:id`, (req, res) => {
     } catch (error) {
         res.status(codeStatus).json({
             status: 'error',
-            message: error.message,
+            message: error,
         });
     }
 });
