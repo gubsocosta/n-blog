@@ -39,6 +39,33 @@ app.get('/', (req, res) => {
                 })
         })
 });
+
+// paginate
+app.get('/articles/page/:num', (req, res) => {
+    const { num } = req.params;
+    const limit = 5;
+    
+    let offset = 0;
+
+    if(isNaN(num) || num === 1) {
+        offset = 0;
+    } else {
+        offset = parseInt(num) * limit;
+    }
+
+    Article.findAndCountAll({
+        limit,
+        offset,
+    })
+        .then((articles) => {
+            Category.findAll()
+                .then((categories) => {
+                    const next = offset + limit <= articles.count;
+        
+                    res.render('site/articles/page', { next, categories, articles: articles.rows });
+                });
+        });
+});
 app.get('/articles/:slug', (req, res) => {
     const { slug } = req.params;
 
