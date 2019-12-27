@@ -15,6 +15,29 @@ router.get(pathname, (req, res) => {
         });
 });
 
+// paginate
+router.get(pathname + '/page/:num', (req, res) => {
+    const { num } = req.params;
+    const limit = 5;
+    let offset = 0;
+
+    if(isNaN(num) || num === 1) {
+        offset = 0;
+    } else {
+        offset = parseInt(num) * limit;
+    }
+
+    Article.findAndCountAll({
+        limit,
+        offset,
+    })
+        .then((articles) => {
+            const next = offset + limit <= articles.count;
+
+            res.json({ next, articles });
+        });
+});
+
 // create
 router.get(pathname + '/create', (req, res) => {
     Category.findAll()
